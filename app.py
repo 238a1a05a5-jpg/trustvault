@@ -1,4 +1,4 @@
-import os, re, secrets, sqlite3, smtplib, ssl, threading, logging, mimetypes
+import os, re, json, secrets, sqlite3, smtplib, ssl, threading, logging, mimetypes, urllib.request
 from io import BytesIO
 from datetime import datetime, timedelta, timezone
 from email.message import EmailMessage
@@ -16,7 +16,7 @@ from flask_talisman import Talisman
 
 load_dotenv()
 BASE = os.path.dirname(os.path.abspath(__file__))
-STORE = os.path.join(BASE, "storage"); os.makedirs(STORE, exist_ok=True)
+STORE = os.environ.get("STORE_DIR", os.path.join(BASE, "storage")); os.makedirs(STORE, exist_ok=True)
 DB_PATH = os.environ.get("DB_PATH", os.path.join(BASE, "trustvault.db"))
 PROD = os.environ.get("PRODUCTION") == "1"
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -77,6 +77,13 @@ with sqlite3.connect(DB_PATH) as _c:
 def send_mail(to, subject, body):
     def go():
         try:
+            key = os.environ.get("BREVO_API_KEY")
+            if key:                                # production: send over HTTPS (SMTP ports are blocked on many hosts)
+                payload = json.dumps({"sender": {"name": "TrustVault", "email": os.environ.get("MAIL_FROM", "")},
+                                      "to": [{"email": to}], "subject": subject, "textContent": body}).encode()
+                req = urllib.request.Request("https://api.brevo.com/v3/smtp/email", data=payload, method="POST",
+                    headers={"api-key": key, "content-type": "application/json", "accept": "application/json"})
+                urllib.request.urlopen(req, timeout=20).read(); return
             u, p = os.environ.get("MAIL_USER"), os.environ.get("MAIL_APP_PASS")
             if not (u and p):                      # no Gmail set up: print instead (local testing)
                 print(f"\n[DEV MAIL] To: {to}\nSubject: {subject}\n{body}\n"); return
