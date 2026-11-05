@@ -209,7 +209,8 @@ def upload(u):
     with open(os.path.join(STORE, stored), "wb") as out: out.write(fernet.encrypt(raw))
     cur = q("INSERT INTO files(orig,stored,owner_id,created,size) VALUES(?,?,?,?,?)",
             (orig, stored, u["id"], datetime.now(timezone.utc).isoformat(), len(raw)))
-    log(u, "upload", orig, u["id"])
+    log(u, "upload", orig, 
+        ["id"])
     return jsonify(ok=True, id=cur.lastrowid)
 
 @app.get("/files-list")
