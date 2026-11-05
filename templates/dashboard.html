@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrustVault | Secure Workspace</title><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><div class="logo">T</div><div><b>TrustVault</b><br><small>Secure workspace</small></div></div>
+    <nav id="nav">
+      <a href="#/overview" data-p="overview">Overview</a>
+      <a href="#/documents" data-p="documents">My documents</a>
+      <a href="#/shared" data-p="shared">Shared with me</a>
+      <a href="#/access" data-p="access" data-roles="owner,admin">Access management</a>
+      <a href="#/audit" data-p="audit">Audit trail</a>
+      <a href="#/users" data-p="users" data-roles="admin">Users &amp; roles</a>
+    </nav>
+    <div class="sidefoot">
+      <div class="secure"><b>&#10003; Security first</b><small>Every document request must be checked by the server.</small></div>
+      <a href="#/profile" data-p="profile">Profile settings</a>
+      <a href="#" id="logout">Sign out</a>
+    </div>
+  </aside>
+  <div class="mainwrap">
+    <div class="topbar"><span id="crumb"></span>
+      <span class="right"><span class="pill">&#128274; Protected workspace</span><span class="avatar" id="avatar"></span></span></div>
+    <main id="page"></main>
+  </div>
+</div>
+<div id="toast" hidden></div>
+<script src="/static/app.js"></script>
+</body></html>

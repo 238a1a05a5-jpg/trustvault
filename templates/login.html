@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrustVault</title><link rel="stylesheet" href="/static/style.css"></head>
+<body class="center">
+<div class="card">
+  <div class="brand"><div class="logo">T</div><div><b>TrustVault</b><br><small>Secure workspace</small></div></div>
+  <div class="tabs" id="tabs"><button id="tabIn" class="on" type="button">Sign in</button><button id="tabUp" type="button">Create account</button></div>
+  <form id="authForm">
+    <div id="nameBox" hidden><label for="name">Name</label><input id="name" autocomplete="name"></div>
+    <label for="email">Email</label><input id="email" type="email" required autocomplete="email">
+    <div id="pwBox"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password"></div>
+    <p class="hint" id="upHint" hidden>A one-time password will be emailed to you. Use it to sign in, then set your own password.</p>
+    <button class="primary" id="go">Sign in</button>
+  </form>
+  <form id="changeForm" hidden>
+    <label for="newpw">Set your own password</label>
+    <input id="newpw" type="password" minlength="8" placeholder="At least 8 characters" required autocomplete="new-password">
+    <button class="primary">Save password</button>
+  </form>
+  <p id="msg"></p>
+</div>
+<script src="/static/login.js"></script>
+</body></html>

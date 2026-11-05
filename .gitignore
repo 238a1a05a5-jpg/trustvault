@@ -1,0 +1,9 @@
+.env
+.secret_key
+.file_key
+trustvault.db
+storage/*
+!storage/.gitkeep
+__pycache__/
+venv/
+drive-key.json

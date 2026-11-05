@@ -1,0 +1,6 @@
+flask
+cryptography
+flask-limiter
+flask-talisman
+python-dotenv
+gunicorn
