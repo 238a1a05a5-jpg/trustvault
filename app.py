@@ -209,8 +209,7 @@ def upload(u):
     with open(os.path.join(STORE, stored), "wb") as out: out.write(fernet.encrypt(raw))
     cur = q("INSERT INTO files(orig,stored,owner_id,created,size) VALUES(?,?,?,?,?)",
             (orig, stored, u["id"], datetime.now(timezone.utc).isoformat(), len(raw)))
-    log(u, "upload", orig, 
-        ["id"])
+    log(u, "upload", orig, u["id"])                      # FIXED: was ["id"] (a list), which crashed SQLite
     return jsonify(ok=True, id=cur.lastrowid)
 
 @app.get("/files-list")
@@ -245,7 +244,7 @@ def profile(u):
     q("UPDATE users SET name=? WHERE id=?", (name, u["id"])); log(u, "profile_updated", "name changed")
     return jsonify(ok=True)
 
-@app.post("/upload")
+@app.post("/profile/password")                           # FIXED: was @app.post("/upload") (duplicate route)
 @need()
 def profile_password(u):
     d = body()
